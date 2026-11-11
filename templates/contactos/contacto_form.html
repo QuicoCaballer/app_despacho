@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block titulo %}{% if object %}Editar contacto{% else %}Nuevo contacto{% endif %}{% endblock %}
+{% block contenido %}
+<h1>{% if object %}Editar contacto{% else %}Nuevo contacto{% endif %}</h1>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Guardar</button>
+  <a class="btn btn-gris" href="{% url 'contactos:lista' %}">Cancelar</a>
+</form>
+{% endblock %}

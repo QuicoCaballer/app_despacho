@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Despacho{% endblock %}</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; background: #f4f5f4; color: #1d2b2f; }
+    header { background: #0f5c5c; color: #fff; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; }
+    header a { color: #fff; text-decoration: none; font-weight: 600; }
+    header form { display: inline; }
+    main { max-width: 960px; margin: 24px auto; padding: 0 16px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; }
+    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #dde1dd; }
+    input, select, textarea { font: inherit; padding: 8px; border: 1px solid #b9c0bb; border-radius: 6px; max-width: 100%; }
+    button, .btn { font: inherit; padding: 8px 14px; border: 0; border-radius: 6px; background: #0f5c5c; color: #fff; cursor: pointer; text-decoration: none; display: inline-block; }
+    .btn-gris { background: #e3e7e3; color: #1d2b2f; }
+    .btn-rojo { background: #a32a2a; }
+    .barra { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .errorlist { color: #a32a2a; padding-left: 16px; }
+    p label { display: block; font-weight: 600; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="{% url 'contactos:lista' %}">Despacho</a>
+    {% if user.is_authenticated %}
+    <form method="post" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <button type="submit" class="btn-gris">Cerrar sesión ({{ user.username }})</button>
+    </form>
+    {% endif %}
+  </header>
+  <main>{% block contenido %}{% endblock %}</main>
+</body>
+</html>

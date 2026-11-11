@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block titulo %}Borrar contacto{% endblock %}
+{% block contenido %}
+<h1>Borrar contacto</h1>
+<p>¿Seguro que quieres borrar a <strong>{{ object }}</strong>? Esta acción no se puede deshacer.</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn-rojo">Sí, borrar</button>
+  <a class="btn btn-gris" href="{% url 'contactos:lista' %}">Cancelar</a>
+</form>
+{% endblock %}

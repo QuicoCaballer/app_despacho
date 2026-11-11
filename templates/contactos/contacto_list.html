@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block titulo %}Contactos{% endblock %}
+{% block contenido %}
+<h1>Contactos</h1>
+
+<form method="get" class="barra">
+  <input type="search" name="q" value="{{ q }}" placeholder="Buscar por nombre, email o teléfono">
+  <select name="tipo">
+    <option value="">Todos los tipos</option>
+    {% for valor, etiqueta in tipos %}
+    <option value="{{ valor }}" {% if valor == tipo_actual %}selected{% endif %}>{{ etiqueta }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit">Buscar</button>
+  <a class="btn btn-gris" href="{% url 'contactos:lista' %}">Limpiar</a>
+  <a class="btn" href="{% url 'contactos:crear' %}">Nuevo contacto</a>
+</form>
+
+{% if object_list %}
+<table>
+  <thead><tr><th>Nombre</th><th>Tipo</th><th>Email</th><th>Teléfono</th><th></th></tr></thead>
+  <tbody>
+  {% for c in object_list %}
+    <tr>
+      <td>{{ c }}</td>
+      <td>{{ c.get_tipo_display }}</td>
+      <td>{{ c.email }}</td>
+      <td>{{ c.telefono }}</td>
+      <td>
+        <a href="{% url 'contactos:editar' c.pk %}">Editar</a> ·
+        <a href="{% url 'contactos:borrar' c.pk %}">Borrar</a>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{% if is_paginated %}
+<p>
+  {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}&q={{ q|urlencode }}&tipo={{ tipo_actual|urlencode }}">Anterior</a>
+  {% endif %}
+  Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+  {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}&q={{ q|urlencode }}&tipo={{ tipo_actual|urlencode }}">Siguiente</a>
+  {% endif %}
+</p>
+{% endif %}
+{% else %}
+<p>No hay contactos que mostrar.</p>
+{% endif %}
+{% endblock %}
